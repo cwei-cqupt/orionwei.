@@ -7,28 +7,37 @@
         body{
             display: flex;
             flex-flow: row wrap;
+            align-items: center;
             justify-content: flex-start;
+            padding:10px;
         }
         div{
             width:150px;
             background-color: #1d3e81;
-            margin:30px;
+            margin:10px auto;
         }
         .first{
             height:120px;
-            order: 2;
         }
         .second{
             height:100px;
-            order: 3;
         }
         .third{
             height:40px;
-            order: 4;
         }
         .forth{
             height:200px;
-            order: 1;
+        }
+        @media screen and (max-width:655px){
+            body{
+                align-items: flex-end;
+            }
+            div{
+                margin:3px;
+            }
+            .forth{
+                order:-1;
+            }
         }
     </style>
 </head>
