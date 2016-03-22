@@ -51,13 +51,13 @@
     function pageinit(height,width){
         cav.height = height;
         cav.width = width;
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = '#ccc';
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
-        ctx.fillStyle = "#ccc";
+        ctx.fillStyle = "black";
         ctx.font="25px Arial";
-        rect.style.left = (Math.random().toFixed(1)*500+49)+"px";
-        rect.style.top = (Math.random().toFixed(1)*500+49)+"px";
+        rect.style.left = Math.min((Math.random().toFixed(1)*500+49),499)+"px";
+        rect.style.top = Math.min((Math.random().toFixed(1)*500+49),499)+"px";
         for(var i = 0;i < width/50;i++){
             ctx.moveTo(49+i*50,50);
             ctx.lineTo(49+i*50,550);
