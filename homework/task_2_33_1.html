@@ -54,8 +54,10 @@
         ctx.strokeStyle = 'black';
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#ccc";
         ctx.font="25px Arial";
+        rect.style.left = (Math.random().toFixed(1)*500+49)+"px";
+        rect.style.top = (Math.random().toFixed(1)*500+49)+"px";
         for(var i = 0;i < width/50;i++){
             ctx.moveTo(49+i*50,50);
             ctx.lineTo(49+i*50,550);
