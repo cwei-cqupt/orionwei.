@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task_2_33_1</title>
+    <style>
+        .wrap{
+            height:550px;
+            width:510px;
+            position: relative;
+        }
+        div.rect{
+            width: 50px;
+            height: 50px;
+            background-image: url("../public/QQ截图20160322145530.png");
+            background-size: 100% 100%;
+            position: absolute;
+            top:49px;
+            left:49px;
+        }
+        input{
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <canvas id="canvas"></canvas>
+    <div class="rect"></div>
+    <label><input type="text"><button>执行</button></label>
+</div>
+<script>
+    var height = 550,width = 550;
+    var cav = document.querySelector("#canvas");
+    var rect = document.querySelectorAll(".rect")[0];
+    var ctx = cav.getContext("2d");
+    (function(){
+        pageinit(height,width);
+    })();
+    Object.prototype.getCurrentStyle = function(prop) {
+        if (this.currentStyle) {
+            return this.currentStyle[prop];
+        }
+        else if (window.getComputedStyle) {
+            propprop = prop.replace (/([A-Z])/g, "-$1");
+            propprop = prop.toLowerCase ();
+            return document.defaultView.getComputedStyle (this,null)[prop];
+        }
+        return null;
+    };
+    function pageinit(height,width){
+        cav.height = height;
+        cav.width = width;
+        ctx.strokeStyle = 'black';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.fillStyle = "black";
+        ctx.font="25px Arial";
+        for(var i = 0;i < width/50;i++){
+            ctx.moveTo(49+i*50,50);
+            ctx.lineTo(49+i*50,550);
+            ctx.stroke();
+            ctx.fillText(i+1,60+i*50,30);
+        }
+        for(var j = 0;j < height/10+1;j++){
+            ctx.moveTo(50,49+j*50);
+            ctx.lineTo(550,49+j*50);
+            ctx.stroke();
+            ctx.fillText(j+1,10,80+j*50);
+        }
+        document.getElementsByTagName("input")[0].addEventListener('keyup', function(){
+            if (event.keyCode == "13") {
+                rectActive(document.getElementsByTagName("input")[0].value);
+            }
+        });
+        document.getElementsByTagName("button")[0].onclick = function(){
+            rectActive(document.getElementsByTagName("input")[0].value);
+        }
+    }
+    function rectActive(value){
+        var ctrl = value.toLowerCase();
+        switch (ctrl){
+            case "go":
+                    console.log((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4);
+                if(rect.style.transform === ""||parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4 === 0)
+                    rect.style.top = Math.max(parseInt(rect.getCurrentStyle("top"))-50,49)+"px";
+                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 3)
+                    rect.style.left = Math.max(parseInt(rect.getCurrentStyle("left"))-50,49)+"px";
+                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 2)
+                    rect.style.top = Math.min(parseInt(rect.getCurrentStyle("top"))+50,499)+"px";
+                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 1)
+                    rect.style.left = Math.min(parseInt(rect.getCurrentStyle("left"))+50,499)+"px";
+                break;
+//            case "back":
+//                rect.style.top = Math.min(parseInt(rect.getCurrentStyle("top"))+50,500)+"px";
+//                break;
+            case "tun lef":
+                if(rect.style.transform.match(/[1-9][0-9]*/g))
+                    if(rect.style.transform.match(/-/))
+                        rect.style.transform = "rotate(-"+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+90)+"deg)";
+                    else
+                        rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])-90)+"deg)";
+                else
+                    rect.style.transform = "rotate(-90deg)";
+                break;
+            case "tun rig":
+            if(rect.style.transform.match(/[1-9][0-9]*/g))
+                rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+90)+"deg)";
+            else
+                rect.style.transform = "rotate(90deg)";
+            break;
+            case "tun bac":
+                if(rect.style.transform.match(/[1-9][0-9]*/g))
+                    rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+180)+"deg)";
+                else
+                    rect.style.transform = "rotate(180deg)";
+                break;
+            default:
+                alert("无效的命令,请检查输入");
+                break;
+        }
+    }
+</script>
+</body>
+</html>
