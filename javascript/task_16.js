@@ -18,8 +18,9 @@ var aqiData = {};
 function addAqiData() {
     var city = document.getElementById("aqi-city-input").value;
     var air = document.getElementById("aqi-value-input").value;
-    var regC= /^([a-z\u4E00-\u9FA5])*$/i;
+    var regC= /^([a-z\u4E00-\u9FA5]+\s?)*$/i;
     var regN = /^[0-9]*$/;
+    city = city.replace(/^\s+|\s+$/g,"");
     if(regC.test(city)&&regN.test(air))
         aqiData[city] = air;
     else
