@@ -81,64 +81,106 @@
     }
     function rectActive(value){
         var ctrl = value.toLowerCase();
+        var top = parseInt(rect.getCurrentStyle("top"));
+        var left = parseInt(rect.getCurrentStyle("left"));
+        var rotate = rect.style.transform.match(/[1-9][0-9]*/g)?parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0]):0;
+        if(rect.style.transform.match(/-/))
+            rotate = -rotate;
+        var tun = (4-rotate/90%4)%4;
         switch (ctrl){
             case "go":
-                    console.log((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4);
-                if(rect.style.transform === ""||parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4 === 0)
-                    rect.style.top = Math.max(parseInt(rect.getCurrentStyle("top"))-50,49)+"px";
-                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 3)
-                    rect.style.left = Math.max(parseInt(rect.getCurrentStyle("left"))-50,49)+"px";
-                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 2)
-                    rect.style.top = Math.min(parseInt(rect.getCurrentStyle("top"))+50,499)+"px";
-                else if((4-parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])/90%4)%4 === 1)
-                    rect.style.left = Math.min(parseInt(rect.getCurrentStyle("left"))+50,499)+"px";
+                    switch ((4-rotate/90%4)%4){
+                        case(0):
+                            animation(top,Math.max(top-50,49),function(n){rect.style.top = n+"px";});
+                            break;
+                        case(1):
+                            animation(left,Math.max(left-50,49),function(n){rect.style.left = n+"px";});
+                            break;
+                        case(2):
+                            animation(top,Math.min(top+50,499),function(n){rect.style.top = n+"px";});
+                            break;
+                        case(3):
+                            animation(left,Math.min(left+50,499),function(n){rect.style.left = n+"px";});
+                            break;
+                    }
                 break;
 //            case "back":
 //                rect.style.top = Math.min(parseInt(rect.getCurrentStyle("top"))+50,500)+"px";
 //                break;
             case "tun lef":
-                if(rect.style.transform.match(/[1-9][0-9]*/g))
-                    if(rect.style.transform.match(/-/))
-                        rect.style.transform = "rotate(-"+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+90)+"deg)";
-                    else
-                        rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])-90)+"deg)";
-                else
-                    rect.style.transform = "rotate(-90deg)";
+                animation(rotate,rotate-90,function(n){rect.style.transform = "rotate("+n+"deg)";});
                 break;
             case "tun rig":
-            if(rect.style.transform.match(/[1-9][0-9]*/g))
-                rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+90)+"deg)";
-            else
-                rect.style.transform = "rotate(90deg)";
-            break;
+                animation(rotate,rotate+90,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
             case "tun bac":
-                if(rect.style.transform.match(/[1-9][0-9]*/g))
-                    rect.style.transform = "rotate("+(parseInt(rect.style.transform.match(/[1-9][0-9]*/g)[0])+180)+"deg)";
-                else
-                    rect.style.transform = "rotate(180deg)";
+                animation(rotate,rotate+180,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
+            case "tra lef":
+                animation(left,Math.max(left-50,49),function(n){rect.style.left = n+"px";});
+                break;
+            case "tra top":
+                animation(top,Math.max(top-50,49),function(n){rect.style.top = n+"px";});
+                break;
+            case "tra rig":
+                animation(left,Math.min(left+50,499),function(n){rect.style.left = n+"px";});
+                break;
+            case "tra bot":
+                animation(top,Math.min(top+50,499),function(n){rect.style.top = n+"px";});
+                break;
+            case "mov lef":
+                a(tun,-90);
+                animation(left,Math.max(left-50,49),function(n){rect.style.left = n+"px";});
+                break;
+            case "mov top":
+                a(tun,0);
+                animation(top,Math.max(top-50,49),function(n){rect.style.top = n+"px";});
+                break;
+            case "mov rig":
+                a(tun,90);
+                animation(left,Math.min(left+50,499),function(n){rect.style.left = n+"px";});
+                break;
+            case "mov bot":
+                a(tun,180);
+                animation(top,Math.min(top+50,499),function(n){rect.style.top = n+"px";});
                 break;
             default:
                 alert("无效的命令,请检查输入");
                 break;
         }
     }
-    Object.prototype.animate = function(obj){
-
-    };
-    function animation(from,to){
-        var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame;
-        var n = from;
-        requestAnimationFrame(animation);
-        console.log(n);
-        if(n > to)
-            n--;
-        else if(n < to)
-            n++;
-        if(n == to){
-            window.cancelAnimationFrame(requestAnimationFrame);
+    function a(tun,to){
+        switch (tun){
+            case(0):
+                animation(0,to,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
+            case(1):
+                animation(-90,to,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
+            case(2):
+                animation(180,to,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
+            case(3):
+                animation(90,to,function(n){rect.style.transform = "rotate("+n+"deg)";});
+                break;
         }
-    };
-    animation(1,10)
+    }
+    function animation(from,to,fn){
+//        var requestAnimationFrame = window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame;
+        var n = from;
+        function v(){
+            fn(n);
+            if(n > to) {
+                n--;
+                setTimeout(v,1);
+            }
+            else if(n < to) {
+                n++;
+                setTimeout(v,1);
+            }
+        }
+        v();
+    }
 </script>
 </body>
 </html>
