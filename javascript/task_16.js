@@ -20,7 +20,7 @@ function addAqiData() {
     var air = document.getElementById("aqi-value-input").value;
     var regC= /^([a-z\u4E00-\u9FA5])*$/i;
     var regN = /^[0-9]*$/;
-    if(reg.test(city)&&regN.test(air))
+    if(regC.test(city)&&regN.test(air))
         aqiData[city] = air;
     else
         alert("输入不规范请检查后重新输入");
