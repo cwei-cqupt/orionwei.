@@ -9,6 +9,7 @@ window.onresize = function(){
 function pageInit(){
     canvasInit();
 }
+
 var cav;
 function canvasInit(){
     cav = document.getElementById("main");
