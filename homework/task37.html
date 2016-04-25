@@ -38,59 +38,67 @@
     </style>
 </head>
 <body>
-<button>UI浮出层</button>
+<button id="open">UI浮出层</button>
 </body>
 <script>
-    Object.prototype.appendC = function(tagN,classN,html){
-        var orion = document.createElement(tagN);
-        if(classN)
-            orion.className = classN;
-        if(html)
-            orion.innerHTML = html;
-        this.appendChild(orion);
-        return orion;
-    };
-    Object.prototype.getCurrentStyle = function(prop) {
-        if (this.currentStyle) {
-            return this.currentStyle[prop];
-        }
-        else if (window.getComputedStyle) {
-            propprop = prop.replace (/([A-Z])/g, "-$1");
-            propprop = prop.toLowerCase ();
-            return document.defaultView.getComputedStyle (this,null)[prop];
-        }
-        return null;
-    };
-    !function(){
-        var body = document.getElementsByTagName("body")[0];
-        body.appendC("div","fix").appendC("div","fixMain").appendC("button","close","关闭");
-        var button = document.getElementsByTagName("button");
-        var fix = document.getElementsByClassName("fix")[0];
-        var fixMain = document.getElementsByClassName("fixMain")[0];
-        for(var i = 0;i < button.length;i++){
-            button[i].onclick = function(){
-                inout(fix);
-            }
-        }
-        fix.onclick = function(){
-            inout(this);
+    function Orion(object){
+        Object.prototype.appendC = function(tagN,classN,html){
+            var orion = document.createElement(tagN);
+            if(classN)
+                orion.className = classN;
+            if(html)
+                orion.innerHTML = html;
+            this.appendChild(orion);
+            return orion;
         };
-        fixMain.onclick = function(){
-            if(event){
-            event.stopPropagation();
-            }else{
-                window.event.cancelBubble = true;
+        Object.prototype.getCurrentStyle = function(prop) {
+            if (this.currentStyle) {
+                return this.currentStyle[prop];
             }
-        }
-    }();
-    function inout(obj){
-        var display = obj.getCurrentStyle("display");
-        if(display === "block"){
-            obj.style.display = "none";
-        }
-        else if(display === "none"){
-            obj.style.display = "block";
+            else if (window.getComputedStyle) {
+                propprop = prop.replace (/([A-Z])/g, "-$1");
+                propprop = prop.toLowerCase ();
+                return document.defaultView.getComputedStyle (this,null)[prop];
+            }
+            return null;
+        };
+        !function(){
+            var body = document.getElementsByTagName("body")[0];
+            body.appendC("div","fix").appendC("div","fixMain",object.innerHTML).appendC("button","close","关闭");
+            var button = document.getElementsByTagName("button");
+            var fix = document.getElementsByClassName("fix")[0];
+            var fixMain = document.getElementsByClassName("fixMain")[0];
+            for(var i = 0;i < button.length;i++){
+                button[i].onclick = function(){
+                    inout(fix);
+                }
+            }
+            fix.onclick = function(){
+                inout(this);
+            };
+            fixMain.onclick = function(){
+                if(event){
+                    event.stopPropagation();
+                }else{
+                    window.event.cancelBubble = true;
+                }
+            }
+        }();
+        function inout(obj){
+            var display = obj.getCurrentStyle("display");
+            if(display === "block"){
+                obj.style.display = "none";
+            }
+            else if(display === "none"){
+                obj.style.display = "block";
+            }
         }
     }
+    new Orion({
+        open:"open",
+        close:"close",
+        innerHTML:"aaa",
+    });
+
 </script>
 </html>
