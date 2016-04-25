@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task37</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            height:100px;
+        }
+        button{
+            height:30px;
+            width:100px;
+            margin: auto;
+            position: absolute;
+            top: 50%; left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        div.fix{
+            width:100%;
+            height:100%;
+            position: fixed;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+        }
+        div.fixMain{
+            position: relative;
+            background-color: white;
+            margin:auto;
+            top: 50%;
+            margin-top: -100px;
+            width:300px;
+            height:200px;
+        }
+    </style>
+</head>
+<body>
+<button>UI浮出层</button>
+</body>
+<script>
+    Object.prototype.appendC = function(tagN,classN,html){
+        var orion = document.createElement(tagN);
+        if(classN)
+            orion.className = classN;
+        if(html)
+            orion.innerHTML = html;
+        this.appendChild(orion);
+        return orion;
+    };
+    Object.prototype.getCurrentStyle = function(prop) {
+        if (this.currentStyle) {
+            return this.currentStyle[prop];
+        }
+        else if (window.getComputedStyle) {
+            propprop = prop.replace (/([A-Z])/g, "-$1");
+            propprop = prop.toLowerCase ();
+            return document.defaultView.getComputedStyle (this,null)[prop];
+        }
+        return null;
+    };
+    !function(){
+        var body = document.getElementsByTagName("body")[0];
+        body.appendC("div","fix").appendC("div","fixMain").appendC("button","close","关闭");
+        var button = document.getElementsByTagName("button");
+        var fix = document.getElementsByClassName("fix")[0];
+        var fixMain = document.getElementsByClassName("fixMain")[0];
+        for(var i = 0;i < button.length;i++){
+            button[i].onclick = function(){
+                inout(fix);
+            }
+        }
+        fix.onclick = function(){
+            inout(this);
+        };
+        fixMain.onclick = function(){
+            if(event){
+            event.stopPropagation();
+            }else{
+                window.event.cancelBubble = true;
+            }
+        }
+    }();
+    function inout(obj){
+        var display = obj.getCurrentStyle("display");
+        if(display === "block"){
+            obj.style.display = "none";
+        }
+        else if(display === "none"){
+            obj.style.display = "block";
+        }
+    }
+</script>
+</html>
