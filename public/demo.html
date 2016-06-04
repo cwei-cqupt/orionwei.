@@ -1,0 +1,27 @@
+<html>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" charset="utf-8">
+<head>
+    <script>
+        var word, iframe;
+        window.onload = function() {
+            iframe = document.getElementsByTagName("iframe")[0];
+            word = document.getElementById("a");
+            word.value = '';
+            word.onkeydown = function(event){
+                var e = event||window.event;
+                if(e.keyCode === 13){
+                    iframe.src = "http://dict.youdao.com/dictvoice?audio="+word.value;
+                    this.value = "";
+                }
+            }
+
+        }
+    </script>
+</head>
+<body bgcolor="#E6E6FA">
+<div>
+    <textarea name="english" id="a" cols="30" rows="10"></textarea>
+    <iframe src="http://dict.youdao.com/dictvoice?audio=welcome to my class" frameborder="0" style="display:none"></iframe>
+</div>
+</body>
+</html>
