@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task38</title>
+    <style id="css">
+        body{
+            margin:0;
+            padding:0;
+        }
+        table{
+            background-color: white;
+            margin: auto;
+            position: absolute;
+            top: 50%; left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        th{
+            color: white;
+            width:100px;
+            position: relative;
+        }
+        td{
+            text-align: center;
+        }
+        div.up{
+            height:0;
+            width:0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom:5px solid white;
+            position: absolute;
+            left:75px;
+            top:8px;
+        }
+        div.up:hover{
+            cursor: pointer;
+        }
+        div.down{
+            height:0;
+            width:0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top:5px solid white;
+            position: absolute;
+            left:75px;
+            top:17px;
+        }
+    </style>
+</head>
+<body>
+<table id="a"></table>
+</body>
+<script>
+    function OrionTable(object){
+        Object.prototype.appendC = function(tagN,classN,html){
+            var orion = document.createElement(tagN);
+            if(classN)
+                orion.className = classN;
+            if(html)
+                orion.innerHTML = html;
+            this.appendChild(orion);
+            return orion;
+        };
+        Object.prototype.addListener = function(event,fn){
+            for(var i = 0;i < this.length;i++){
+                this[i].addEventListener(event,fn)
+            }
+        };
+        this.obj = document.getElementById(object.id);
+        document.getElementById("css").innerHTML += "th{background-color:"+(object.headbgc||"black")+"}tr{height:"+(object.lineHeight||"40px")+"}td{background-color:"+(object.bodybgc||"white")+"}";
+        appendHead(this.obj,object.head,object.issort);
+        function appendHead(obj,data,issort){
+            obj.appendC("tr");
+            for(var i = 0;i < data.length;i++){
+                obj.children[0].appendC("th","",data[i]);
+                if(i>0&&issort[i]){
+                    obj.children[0].children[obj.children[0].children.length-1].appendC("div","up");
+                    obj.children[0].children[obj.children[0].children.length-1].appendC("div","down");
+                }
+            }
+        }
+        for(var j = 0;j < object.grade.length;j++){
+            appendBody(this.obj,object.grade[j]);
+        }
+        function appendBody(obj,data){
+            obj.appendC("tr");
+            var sum = 0;
+            for(var i = 0;i < data.length;i++){
+                obj.children[obj.children.length-1].appendC("td","",data[i]);
+                if(i>0)
+                    sum += data[i];
+            }
+            obj.children[obj.children.length-1].appendC("td","",sum);
+        }
+        Array.prototype.orionSort = function(sortBy,desc){
+            var j = 0,key = 0;
+            if(!desc){
+                for(var i = 2;i < this.length;i++){
+                    j = i-1;
+                    key = this[i][sortBy];
+                    while(j>0&&this[j][sortBy]>key){
+                        this[j+1] = this[j];
+                        j--;
+                        console.log(i,j);
+                    }
+                    this[j+1][sortBy] = key;
+                }
+            }
+            return this;
+        };
+        document.getElementsByClassName("up").addListener("click",function(){
+            var req = /</;
+            var html = this.parentElement.innerHTML;
+            console.log(object.grade.orionSort(object.head.indexOf(html.substr(0,req.exec(html).index)),true));
+        })
+    }
+    new OrionTable({
+        id:"a",
+        lineHeight:"30px",
+        issort:[0,1,1,1,1],
+        head:["姓名","语文","数学","英语","总分"],
+        grade:[["a",40,60,70],["b",80,70,90],["a",60,90,80]]
+    });
+</script>
+</html>
