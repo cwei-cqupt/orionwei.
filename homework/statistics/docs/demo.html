@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+</head>
+<body>
+<input type="text" id="b"/>
+<textarea id="a" cols="30" rows="10"></textarea>
+<script src="../dist/statistics.js"></script>
+<script>
+    var a = statistics({
+        obj:document.getElementById("a"), //must
+        filterType:"length",
+        length:20,
+        callback:function(){
+            this.value = this.value.slice(0,20);
+        }
+    });
+    var b = statistics({
+        obj:document.getElementById("b"), //must
+        filterType:"RegExp",
+        reg:"a",
+        callback:function(){
+            console.log(1);
+        }
+    })
+</script>
+</body>
+</html>

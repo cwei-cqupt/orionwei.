@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <style>
+        body,html{
+            margin:0;
+            padding:0;
+            height:100%;
+        }
+        ::-webkit-scrollbar{
+            width:0;
+        }
+        div{
+            height:100%;
+        }
+        .a{
+            background-color: #52ea1a;
+        }
+        .b{
+            background-color: #43b318;
+        }
+        .c{
+            background-color: #348816;
+        }
+        .d{
+            background-color: #265b11;
+        }
+        div.active{
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="a">
+    <div class="a">第一屏</div>
+    <div class="b" id="b">第二屛</div>
+    <div class="c">第三屏</div>
+    <div class="d">第四屏</div>
+</div>
+<script src="../dist/fullpage.js"></script>
+<script>
+    var a = fullpage({
+        obj:"#a",
+        type:"rightL",  //悬浮菜单： fixedM；右侧导航：rightL；循环：loop
+        speed:"fast",
+        callback:function() {
+            console.log(this);
+        }
+    })
+</script>
+</body>
+</html>
