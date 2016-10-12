@@ -51,7 +51,7 @@
             }
             else if(typeof obj.obj === "object"){
                 var temp = [];
-                for(var index of obj.obj){
+                for(var index in obj.obj){
                     temp = temp.concat(selector(index));
                 }
                 obj.objArr = temp;
@@ -85,6 +85,9 @@
                     init(obj);
                     break;
             }
+            window.onresize = function(){
+                window.location.href = window.location.href;
+            };
         },
         fixedMenu = function(obj) {
             var ul = document.createElement("ul"),
