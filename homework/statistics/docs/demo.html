@@ -5,8 +5,8 @@
     <title>demo</title>
 </head>
 <body>
-<input type="text" id="b"/>
-<textarea id="a" cols="30" rows="10"></textarea>
+<input type="text" id="b"/> 正则
+<textarea id="a" cols="30" rows="10"></textarea>20字
 <script src="../dist/statistics.js"></script>
 <script>
     var a = statistics({
@@ -22,7 +22,7 @@
         filterType:"RegExp",
         reg:"a",
         callback:function(){
-            console.log(1);
+            alert("匹配"+this.value);
         }
     })
 </script>

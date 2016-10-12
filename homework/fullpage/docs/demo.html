@@ -41,14 +41,38 @@
 </div>
 <script src="../dist/fullpage.js"></script>
 <script>
-    var a = fullpage({
-        obj:"#a",
-        type:"rightL",  //悬浮菜单： fixedM；右侧导航：rightL；循环：loop
-        speed:"fast",
-        callback:function() {
-            console.log(this);
+    var a;
+    function search() {
+        var o = {};
+        if(window.location.search){
+            var str = window.location.search;
+            str = str.replace("?","").split("&");
+            for(var index of str){
+                o[index.split("=")[0]] = index.split("=")[1];
+            }
         }
-    })
+        return o;
+    }
+    var searchLocation = search();
+    if(searchLocation.type){
+        a = fullpage({
+            obj:"#a",
+            type:searchLocation.type,  //悬浮菜单： fixedM；右侧导航：rightL；循环：loop
+            speed:"fast",
+            callback:function() {
+                console.log(this);
+            }
+        })
+    }
+    else{
+        a = fullpage({
+            obj:"#a",
+            speed:"fast",
+            callback:function() {
+                console.log(this);
+            }
+        })
+    }
 </script>
 </body>
 </html>
